@@ -1,9 +1,11 @@
+import 'package:hw58/models/game_platform.dart';
+
 class VideoGame {
   final String? id;
   final String name;
   final String description;
-  final String platform;
-  final DateTime releaseDate;
+  final GamePlatform platform;
+  final int releaseDate;
   final String status;
 
   VideoGame({
@@ -19,8 +21,8 @@ class VideoGame {
     return {
       'name': name,
       'description': description,
-      'platform': platform,
-      'release_date': releaseDate.toUtc().toIso8601String(),
+      'platform': platform.toJson(),
+      'release_date': releaseDate,
       'status': status,
     };
   }
@@ -31,7 +33,7 @@ class VideoGame {
       name: json['name'],
       description: json['description'],
       platform: json['platform'],
-      releaseDate: DateTime.parse(json['release_date']),
+      releaseDate: json['release_date'],
       status: json['status'],
     );
   }
