@@ -1,10 +1,8 @@
-import 'package:hw58/models/game_platform.dart';
-
 class VideoGame {
   final String? id;
   final String name;
   final String description;
-  final GamePlatform platform;
+  final Map<String, dynamic> platform;
   final int releaseDate;
   final String status;
 
@@ -21,7 +19,7 @@ class VideoGame {
     return {
       'name': name,
       'description': description,
-      'platform': platform.toJson(),
+      'platform': platform,
       'release_date': releaseDate,
       'status': status,
     };

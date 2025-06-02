@@ -6,6 +6,6 @@ class GamePlatform {
   GamePlatform({required this.id, required this.title, required this.logo});
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'title': title, 'logo': logo};
+    return {'title': title, 'logo': logo};
   }
 }

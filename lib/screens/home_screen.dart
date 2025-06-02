@@ -14,11 +14,12 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final headLineStyle = Theme.of(context).textTheme.headlineSmall;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Games Store !'),
+          title: Text('Games Store !', style: headLineStyle),
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.list_alt), text: 'List'),

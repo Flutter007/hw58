@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hw58/providers/games_provider.dart';
 import 'package:hw58/widgets/add_game_form/add_game_form.dart';
 import '../providers/platforms_list_provider.dart';
 import '../providers/statuses_list_provider.dart';
@@ -14,58 +15,68 @@ class AddGameScreen extends ConsumerStatefulWidget {
 
 class _AddGameScreenState extends ConsumerState<AddGameScreen> {
   final gameController = AddGameController();
-  String? selectedPlatform;
-  String? selectedStatus;
+
+  bool error = false;
+
+  void clearController() {
+    gameController.formKey.currentState!.reset();
+    ref.read(selectedPlatformProvider.notifier).state = null;
+    ref.read(selectedStatusProvider.notifier).state = null;
+    gameController.nameController.clear();
+    gameController.descriptionController.clear();
+    gameController.releaseDateController.clear();
+  }
+
+  void addGame() {
+    final selectedPlatform = ref.read(selectedPlatformProvider);
+    final selectedStatus = ref.read(selectedStatusProvider);
+    setState(() {
+      error = true;
+    });
+    if (gameController.formKey.currentState!.validate() &&
+        selectedStatus != null &&
+        selectedPlatform != null) {
+      ref
+          .read(createGameProvider.notifier)
+          .createGame(selectedPlatform, selectedStatus, gameController);
+      clearController();
+    }
+  }
+
+  void listenToAddGame() {
+    ref.listen(createGameProvider, (prev, next) {
+      next.whenOrNull(
+        data: (d) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Game added successfully')));
+        },
+        error: (e, stack) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Something went wrong')));
+        },
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    gameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final platforms = ref.watch(platformsProvider);
-    final statuses = ref.watch(statusesProvider);
+    final gameState = ref.watch(createGameProvider);
+    listenToAddGame();
     return SingleChildScrollView(
       child: Column(
         children: [
-          AddGameForm(
-            controller: gameController,
-            platformSelector: DropdownMenu(
-              width: 350,
-              label: Text('Choose platform:'),
-              initialSelection: selectedPlatform,
-              onSelected: (value) => setState(() => selectedPlatform = value),
-              dropdownMenuEntries:
-                  platforms
-                      .map(
-                        (t) => DropdownMenuEntry(
-                          value: t.id,
-                          label: t.title,
-                          leadingIcon: Image.network(
-                            t.logo,
-                            width: 50,
-                            height: 50,
-                          ),
-                        ),
-                      )
-                      .toList(),
-            ),
-            statusSelector: DropdownMenu(
-              width: 350,
-              label: Text('Choose status:'),
-              initialSelection: selectedStatus,
-              onSelected: (value) => setState(() => selectedStatus = value),
-              dropdownMenuEntries:
-                  statuses
-                      .map(
-                        (s) => DropdownMenuEntry(
-                          value: s.id,
-                          label: s.title,
-                          leadingIcon: Icon(s.icon),
-                        ),
-                      )
-                      .toList(),
-            ),
-          ),
+          AddGameForm(controller: gameController),
           SizedBox(height: 20),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: gameState.isLoading ? null : addGame,
             child: Text('Add', style: TextStyle(fontSize: 20)),
           ),
         ],
