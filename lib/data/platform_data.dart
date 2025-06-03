@@ -4,27 +4,30 @@ final List<GamePlatform> platforms = [
   GamePlatform(
     id: 'pc',
     title: 'PC',
-    logo: 'https://img.icons8.com/?size=512&id=cMLQ2oh5S3TB&format=png',
+    logo:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/2048px-Steam_icon_logo.svg.png',
   ),
   GamePlatform(
-    id: 'playstation',
+    id: 'playstation_5',
     title: 'PlayStation 5',
-    logo: 'https://s0.rbk.ru/v6_top_pics/media/img/1/71/347260620932711.webp',
+    logo:
+        'https://static.vecteezy.com/system/resources/previews/020/190/711/non_2x/playstation-ps5-ps4-logo-free-free-vector.jpg',
   ),
   GamePlatform(
-    id: 'xbox',
+    id: 'xbox_series_x',
     title: 'Xbox Series X',
-    logo: 'https://gamestore.kg/wp-content/uploads/xbox-series-x-1.jpg',
+    logo:
+        'https://upload.wikimedia.org/wikipedia/commons/7/72/Xbox_Series_X_logo.png',
   ),
   GamePlatform(
-    id: 'nintendo',
+    id: 'nintendo_switch',
     title: 'Nintendo Switch',
     logo: 'https://www.myphone.kg/files/media/20/20132.webp',
   ),
   GamePlatform(
-    id: 'sega',
+    id: 'sega_mega_drive',
     title: 'Sega Mega Drive',
     logo:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQrQp52ML9rGrNNZbgbzFzfXoDMqqurcDzsA&s',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/SEGA_logo.svg/2560px-SEGA_logo.svg.png',
   ),
 ];

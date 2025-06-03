@@ -19,7 +19,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Games Store !', style: headLineStyle),
+          title: Text('Games Wish App !', style: headLineStyle),
           bottom: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.list_alt), text: 'List'),

@@ -15,30 +15,39 @@ class AddGameScreen extends ConsumerStatefulWidget {
 
 class _AddGameScreenState extends ConsumerState<AddGameScreen> {
   final gameController = AddGameController();
-
-  bool error = false;
+  bool platformError = false;
+  bool statusError = false;
 
   void clearController() {
     gameController.formKey.currentState!.reset();
-    ref.read(selectedPlatformProvider.notifier).state = null;
-    ref.read(selectedStatusProvider.notifier).state = null;
     gameController.nameController.clear();
     gameController.descriptionController.clear();
     gameController.releaseDateController.clear();
+    ref.read(selectedPlatformProvider.notifier).state = null;
+    ref.read(selectedStatusProvider.notifier).state = null;
+  }
+
+  bool checkPlatformAndStatus() {
+    final selectedPlatform = ref.read(selectedPlatformProvider);
+    final selectedStatus = ref.read(selectedStatusProvider);
+
+    setState(() {
+      platformError = selectedPlatform == null;
+      statusError = selectedStatus == null;
+    });
+
+    return platformError || statusError;
   }
 
   void addGame() {
     final selectedPlatform = ref.read(selectedPlatformProvider);
     final selectedStatus = ref.read(selectedStatusProvider);
-    setState(() {
-      error = true;
-    });
-    if (gameController.formKey.currentState!.validate() &&
-        selectedStatus != null &&
-        selectedPlatform != null) {
+
+    bool isMenuError = checkPlatformAndStatus();
+    if (gameController.formKey.currentState!.validate() && !isMenuError) {
       ref
           .read(createGameProvider.notifier)
-          .createGame(selectedPlatform, selectedStatus, gameController);
+          .createGame(selectedPlatform!, selectedStatus!, gameController);
       clearController();
     }
   }
@@ -73,11 +82,15 @@ class _AddGameScreenState extends ConsumerState<AddGameScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          AddGameForm(controller: gameController),
+          AddGameForm(
+            controller: gameController,
+            platformError: platformError,
+            statusError: statusError,
+          ),
           SizedBox(height: 20),
-          OutlinedButton(
+          ElevatedButton(
             onPressed: gameState.isLoading ? null : addGame,
-            child: Text('Add', style: TextStyle(fontSize: 20)),
+            child: Text('Add game ✔', style: TextStyle(fontSize: 24)),
           ),
         ],
       ),

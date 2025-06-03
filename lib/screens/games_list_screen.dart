@@ -26,6 +26,7 @@ class GamesListScreen extends ConsumerWidget {
       ),
       _ => Center(child: CircularProgressIndicator()),
     };
+
     return body;
   }
 }

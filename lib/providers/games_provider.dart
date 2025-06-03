@@ -5,11 +5,12 @@ import 'package:hw58/providers/platforms_list_provider.dart';
 import 'package:hw58/providers/statuses_list_provider.dart';
 import 'package:hw58/widgets/add_game_form/add_game_controllers.dart';
 
+final baseURL =
+    'https://my-db-7777-default-rtdb.europe-west1.firebasedatabase.app';
 final gamesListProvider = FutureProvider.autoDispose<List<VideoGame>>((
   ref,
 ) async {
-  final url =
-      'https://my-db-7777-default-rtdb.europe-west1.firebasedatabase.app/games.json';
+  final url = '$baseURL/games.json';
   final Map<String, dynamic>? response = await request(url);
   if (response == null) {
     return [];
@@ -34,8 +35,8 @@ class CreateGameNotifier extends AsyncNotifier<void> {
     final status = ref.read(statusByIdProvider(statusId));
     state = AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final url =
-          'https://my-db-7777-default-rtdb.europe-west1.firebasedatabase.app/games.json';
+      final url = '$baseURL/games.json';
+
       final game = VideoGame(
         name: controller.nameController.text,
         description: controller.descriptionController.text,

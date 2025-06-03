@@ -5,6 +5,7 @@ import 'package:hw58/models/game_platform.dart';
 final platformsProvider = Provider((ref) {
   return platforms;
 });
+
 final selectedPlatformProvider = StateProvider<String?>((ref) => null);
 
 final platformByIdProvider = Provider.family<GamePlatform, String>((ref, id) {

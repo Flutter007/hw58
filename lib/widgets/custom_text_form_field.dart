@@ -9,13 +9,14 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.labelText,
-    this.keyboardType = TextInputType.multiline,
+    this.keyboardType = TextInputType.text,
     required this.validator,
     required this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: TextFormField(
@@ -26,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
           border: UnderlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
         validator: validator,
+        style: theme.textTheme.titleLarge,
       ),
     );
   }
